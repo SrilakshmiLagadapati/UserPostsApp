@@ -26,10 +26,10 @@ passwordEl.addEventListener("change", function(event) {
 });
 
 myFormEl.addEventListener("submit", function(event) {
-    event.preventDefault();
 
-});
-function getUserDetails() {
+    event.preventDefault();
+    let nameEntered = nameEl.value;
+    let passwordEntered = passwordEl.value;
     let option = {
         method: "GET"
     };
@@ -43,92 +43,81 @@ function getUserDetails() {
             jsonDeatils = jsonData;
             nameEntered = nameEl.value;
         });
-}
-function displayPostDetails(nameEntered) {
+        for (let item of jsonDeatils) {
+            if ((item.password === passwordEntered) && (item.name === nameEntered)) {
 
-    let navHeadingEl = document.getElementById("nav-heading")
-    navHeadingEl.textContent = nameEntered
-    let logOutEl = document.getElementById("log-out")
-    let userDetails = document.getElementById("sectionUser");
+                let option = {
+                    method: "GET"
+                };
+            
+                fetch("https://60fe481525741100170784ff.mockapi.io/api/v1/user_post", option)
+                    .then(function(response) {
+                        return response.json();
+            
+                    })
+                    .then(function(jsonData) {
+                        postJsondeatils = jsonData;
+                        let navHeadingEl = document.getElementById("nav-heading")
+                        navHeadingEl.textContent = nameEntered
+                        let logOutEl = document.getElementById("log-out")
+                        let userDetails = document.getElementById("sectionUser");
+                        
+                    
+                        for (let item of jsonDeatils) {
+                            if (item.name === nameEntered) {
+                               let logoAvatar = document.getElementById("logo-avatar")
+                               logoAvatar.src = item.avatar
+                            }
+                        }
+                        logOutEl.onclick = function(){
+                            
+                            myFormEl.classList.remove("d-none");
+                            document.getElementById("heading").classList.remove("d-none");
+                            userDetails.textContent = "";
+                            totalErrMsg.textContent = "";
+                            nameEl.value= "";
+                            passwordEl.value = "";
+                        }
+                      let posts = document.getElementById("posts")
+                        for (let item of postJsondeatils) {
+                            let image = item.avatar;
+
+                            let divcontainer = document.createElement("div");
+                            divcontainer.classList.add("flex-container")
+                            posts.appendChild(divcontainer);
+                            
+                            let divEl = document.createElement("div");
+                            divcontainer.appendChild(divEl);
+                            divEl.classList.add("container-div");
+                    
+                            let avatar = document.createElement("img");
+                            avatar.src = image;
+                            avatar.classList.add("avatar");
+                            divEl.appendChild(avatar);
+                    
+                            let headingName = document.createElement("p");
+                            headingName.textContent = item.name;
+                            headingName.classList.add("name");
+                            divEl.appendChild(headingName);
+
+                            let divcontainerPost = document.createElement("div");
+                            divcontainer.appendChild(divcontainerPost);
+                            divcontainerPost.classList.add("flex-container-post")
+
+                            let para = document.createElement("p");
+                            para.textContent = item.post;
+                            para.classList.add("post");
+                            divcontainerPost.appendChild(para);
+                        }                    
+                    });
+                navContainerEl.classList.remove("d-none")
+                myFormEl.classList.add("d-none");
+                document.getElementById("heading").classList.add("d-none");
     
-
-    for (let item of jsonDeatils) {
-        if (item.name === nameEntered) {
-           let logoAvatar = document.getElementById("logo-avatar")
-           logoAvatar.src = item.avatar
+            }else if((item.password !== passwordEntered) && (item.name !== nameEntered)){
+                document.getElementById("totalErrMsg").textContent = "Invalid user details";
+            }
         }
-    }
-    logOutEl.onclick = function(){
-        
-        myFormEl.classList.remove("d-none");
-        document.getElementById("heading").classList.remove("d-none");
-        userDetails.textContent = "";
-        totalErrMsg.textContent = "";
-        nameEl.value= "";
-        passwordEl.value = "";
-    }
-
-    for (let item of postJsondeatils) {
-        userDetails.classList.add("main-container");
-        let image = item.avatar;
-
-        let divEl = document.createElement("div");
-        userDetails.appendChild(divEl);
-        divEl.classList.add("container-div");
-
-        let avatar = document.createElement("img");
-        avatar.src = image;
-        avatar.classList.add("avatar");
-        divEl.appendChild(avatar);
-
-        let headingName = document.createElement("p");
-        headingName.textContent = item.name;
-        headingName.classList.add("name");
-        divEl.appendChild(headingName);
-
-        let para = document.createElement("p");
-        para.textContent = item.post;
-        para.classList.add("post");
-        userDetails.appendChild(para);
-    }
-}
-
-function detailsMatched(nameEntered) {
-    let userDetails = document.getElementById("sectionUser");
+});
 
 
-    let option = {
-        method: "GET"
-    };
-
-    fetch("https://60fe481525741100170784ff.mockapi.io/api/v1/user_post", option)
-        .then(function(response) {
-            return response.json();
-
-        })
-        .then(function(jsonData) {
-            postJsondeatils = jsonData;
-            displayPostDetails(nameEntered);
-        });
-
-}
-function displayUserDetails(nameEntered, passwordEntered) {
-
-    for (let item of jsonDeatils) {
-        if ((item.password === passwordEntered) && (item.name === nameEntered)) {
-            detailsMatched(nameEntered);
-            navContainerEl.classList.remove("d-none")
-            myFormEl.classList.add("d-none");
-            document.getElementById("heading").classList.add("d-none");
-
-        } else {
-            document.getElementById("totalErrMsg").textContent = "Invalid user details";
-        }
-    }
-}
-buttonEl.onclick = function() {
-    let nameEntered = nameEl.value;
-    let passwordEntered = passwordEl.value;
-    getUserDetails()
-    displayUserDetails(nameEntered, passwordEntered);
-};

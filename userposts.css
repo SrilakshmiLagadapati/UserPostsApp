@@ -15,6 +15,27 @@
     justify-content: center;
     align-items: center;
 }
+.flex-container{
+    display:flex;
+    flex-direction:column;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width:500px;
+    margin:10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    height:400px;
+
+}
+.posts-cont{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: center;
+    align-items: center;
+}
+.flex-container-post{
+    display:flex;
+    justify-content: center;
+}
 .avatar {
     height: 40px;
     width: 40px;
@@ -34,7 +55,8 @@
 }
 
 .name {
-    font-size: 25px;
+    font-size: 17px;
+    margin-bottom: 20px;;
 }
 
 .name-user {
@@ -43,8 +65,7 @@
 }
 
 .post {
-    text-align: center;
-    padding: 10px;
+    padding: 20px;
 }
 
 .nav-item {
@@ -57,9 +78,8 @@
 
 .container-div {
     display: flex;
-    background-color: skyblue;
     padding: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width:60%
 
 }
 .log-out-button{
@@ -69,14 +89,6 @@
 }
 .nav-cont{
     position:fixed;
-}
-.div {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
-    background-color: green;
-
-
 }
 
 .form-heading {
